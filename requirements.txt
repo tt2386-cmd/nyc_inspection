@@ -1,4 +1,5 @@
 pandas
 sodapy
-pytest
+matplotlib
 python-dotenv
+pytest
