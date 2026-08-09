@@ -3,3 +3,5 @@ sodapy
 matplotlib
 python-dotenv
 pytest
+flask
+gunicorn

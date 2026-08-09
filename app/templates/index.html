@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Restaurant Inspection Search</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 14px 24px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .results {
+            margin-top: 20px;
+        }
+
+        .location {
+            display: block;
+            padding: 16px;
+            margin: 10px 0;
+            background: #f8f9fb;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #222;
+        }
+
+        .location:hover {
+            background: #eef2f6;
+        }
+
+        .error {
+            padding: 15px;
+            background: #ffecec;
+            color: #b00020;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🍽️ NYC Restaurant Inspection Search</h1>
+
+    <p class="subtitle">
+        Search NYC restaurant inspection records by restaurant name.
+    </p>
+
+    <form method="POST">
+        <input
+            type="text"
+            name="restaurant_name"
+            placeholder="Enter restaurant name..."
+            value="{{ restaurant_name or '' }}"
+            required
+        >
+
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if locations %}
+
+        <div class="results">
+
+            <h2>
+                {{ locations|length }} location(s) found
+            </h2>
+
+            <p>
+                Select a location to view inspection details.
+            </p>
+
+            {% for location in locations %}
+
+                <a class="location"
+                   href="{{ url_for('restaurant_details',
+                                    address=location.address,
+                                    boro=location.boro) }}">
+
+                    <strong>{{ location.dba }}</strong><br>
+
+                    {{ location.address }},
+                    {{ location.boro }}
+
+                </a>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
